@@ -1,6 +1,20 @@
 {
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.doxygen.generatedStyle":"/**",
+  "C_Cpp.doxygen.sectionTags": [
+    "attention",
+    "tparam",
+    "param",
+    "result",
+    "returns",
+    "retval",
+    "exception",
+    "deprecated",
+    "warning",
+    "note"
+  ],
   "cSpell.words": [
+    "Godot",
     "mainpage"
   ]
 }

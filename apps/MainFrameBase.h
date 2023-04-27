@@ -24,6 +24,9 @@
 #include <wx/sizer.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
+#include <wx/gbsizer.h>
+#include <wx/panel.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -52,9 +55,32 @@ class MainFrameBase : public wxFrame
 
 	public:
 
-		MainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxTAB_TRAVERSAL );
+		MainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Godot API's to reStructuredText"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxTAB_TRAVERSAL );
 
 		~MainFrameBase();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class ProjectDetailsDlg
+///////////////////////////////////////////////////////////////////////////////
+class ProjectDetailsDlg : public wxDialog
+{
+	private:
+
+	protected:
+		wxPanel* m_panel;
+		wxStaticText* m_projectDirectoryLable;
+		wxStaticText* m_godotDirectoryLable;
+		wxStaticText* m_sourceDirectoryLabel;
+		wxTextCtrl* projectLocationPath;
+		wxButton* projectLocationChooseBtn;
+
+	public:
+
+		ProjectDetailsDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Project Details"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxFULL_REPAINT_ON_RESIZE );
+
+		~ProjectDetailsDlg();
 
 };
 

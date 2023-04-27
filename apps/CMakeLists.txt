@@ -8,7 +8,7 @@ else()
   message(STATUS "Preinstalled wxWidgets not found.")
 endif()
 
-set(SRCS app.cpp MainFrameBase.cpp )
+set(SRCS app.cpp MainFrameBase.cpp setupdialog.cpp)
 
 add_executable(app ${SRCS})
 
