@@ -30,14 +30,13 @@
 class SetupDialog : public wxDialog {
 public:
   SetupDialog( wxWindow *parent );
-
+  int m_pythonVersion{};
+  
 private:
   wxString m_projectPath{};
   wxString m_destinationPath{};
   wxString m_sourcePath{};
 
-  void OnProjectButtonClick(wxCommandEvent &event);
-  void OnSourceButtonClick(wxCommandEvent &event);
-  void OnDestinationButtonClick(wxCommandEvent &event);
-  wxString ChooseDirectory(wxString message);
+
+
 };

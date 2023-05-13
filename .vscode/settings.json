@@ -16,5 +16,6 @@
   "cSpell.words": [
     "Godot",
     "mainpage"
-  ]
+  ],
+  "cmake.configureOnOpen": true,
 }

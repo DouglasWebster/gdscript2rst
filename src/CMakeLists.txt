@@ -1,24 +1,24 @@
-# cmake_minimum_required(VERSION 3.14...3.26)
+# Note that headers are optional, and do not affect add_library, but they will not
+# show up in IDEs unless they are listed in add_library.
 
-# project(gdscript2rst LANGUAGES CXX)
+# Optionally glob, but only for CMake 3.12 or later:
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${shell_tasks_SOURCE_DIR}/include/*.hpp")
+# set(HEADER_LIST "${ModernCMakeExample_SOURCE_DIR}/include/modern/lib.hpp")
 
-# set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Make an automatic library - will be static or dynamic based on user setting
+add_library(shell_tools shell_tools.cpp ${HEADER_LIST})
 
-# hack for buggy CMake's FindwxWidgets script
-# if(DEFINED ENV_WX_CONFIG)
-#    set(ENV{WX_CONFIG} ${ENV_WX_CONFIG})
-# endif()
+# We need this directory, and users of our library will need it too
+target_include_directories(shell_tools PUBLIC ../include)
 
-# set(wxWidgets_USE_STATIC 1)
+# This depends on (header only) boost
+#target_link_libraries(modern_library PRIVATE Boost::boost)
 
-# find_package(wxWidgets REQUIRED)
+# All users of this library will need at least C++11
+target_compile_features(shell_tools PUBLIC cxx_std_20)
 
-# set(SRCS main.cpp MainFrameBase.cpp)
-
-# include(${wxWidgets_USE_FILE})
-
-# add_executable(gdscript2rst ${SRCS})
-
-
-# target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES})
+# IDEs should put the headers in a nice place
+source_group(
+  TREE "${PROJECT_SOURCE_DIR}/include"
+  PREFIX "Header Files"
+  FILES ${HEADER_LIST})
