@@ -34,15 +34,15 @@ SetupDialog::SetupDialog( wxWindow *parent )
   auto destinationButton = new wxButton( panel, wxID_ANY, "Destination Dir..." );
 
   auto projectFormSizer = new wxBoxSizer( wxHORIZONTAL );
-  projectFormSizer->Add( projectPath, 1, wxEXPAND | wxRight, MARGIN );
+  projectFormSizer->Add( projectPath, 1, wxEXPAND | static_cast<wxStretch>(wxRight), MARGIN );
   projectFormSizer->Add( projectButton, 0, wxALIGN_CENTER_VERTICAL );
 
   auto sourceFormSizer = new wxBoxSizer( wxHORIZONTAL );
-  sourceFormSizer->Add( sourcePath, 1, wxEXPAND | wxRight, MARGIN );
+  sourceFormSizer->Add( sourcePath, 1, wxEXPAND | static_cast<wxStretch>(wxRight), MARGIN );
   sourceFormSizer->Add( sourceButton, 0, wxALIGN_CENTRE_VERTICAL );
 
   auto destinationFormSizer = new wxBoxSizer( wxHORIZONTAL );
-  destinationFormSizer->Add( destinationPath, 1, wxEXPAND | wxRight, MARGIN );
+  destinationFormSizer->Add( destinationPath, 1, wxEXPAND | static_cast<wxStretch>(wxRight), MARGIN );
   destinationFormSizer->Add( destinationButton, 0, wxALIGN_CENTER_VERTICAL );
 
   sizer->Add( projectLabel, { 0, 0 }, { 1, 1 }, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL );
