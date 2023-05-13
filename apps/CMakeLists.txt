@@ -17,6 +17,11 @@ set(SRCS app.cpp setupdialog.cpp)
 
 add_executable(app ${SRCS})
 
+
+# Set the linker flags
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=mold")
+message(STATUS "Using linker flags ${CMAKE_EXE_LINKER_FLAGS}")
+
 target_compile_definitions(app PRIVATE WX_PRECOMP)
 target_precompile_headers(app PRIVATE <wx/wxprec.h> <iostream>)
 
