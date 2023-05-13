@@ -20,7 +20,7 @@ bool MyApp::OnInit()
   frame->Show(true);
   frame->OnCheckPython();
   #ifdef WX_PRECOMP
-    wxMessageBox("Using pre-compilled header for wxWidgets.");
+    wxMessageBox("Using pre-compiled header for wxWidgets.");
   #endif
   
   return true;
@@ -113,7 +113,7 @@ void MainFrame::OnCheckPython()
   std::string version = "";
 
   FILE *pipe = popen(command.c_str(), "r");
-  if (!pipe)
+  if ( !pipe)
   {
     wxMessageBox("Failed to get Python information from the system");
     return;
