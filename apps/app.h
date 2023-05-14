@@ -35,16 +35,6 @@ public:
  * The window consists of a menu, status bar and blank are for use by the program subsystem.
  */
 class MainFrame : public wxFrame {
-private:
-  wxMenuBar *m_MainFrameMenu;
-  wxMenu *m_menuFile;
-  wxMenu *m_menuCheck;
-  wxMenu *m_menu3;
-
-  wxStatusBar *m_statusBar1;
-  bool m_pythonInstalled{ false };
-  int m_pythonVersionMain{};
-
 public:
   /**
    * @brief Single constructor for the main frame
@@ -65,14 +55,51 @@ public:
              long style = wxDEFAULT_FRAME_STYLE | wxMAXIMIZE_BOX | wxMINIMIZE_BOX |
                           wxTAB_TRAVERSAL );
 
+
+  /**
+   * @brief destroy any frame based objects not taken care of by the wxWidget class.
+   */
+  ~MainFrame() {
+      wxLog::SetActiveTarget(nullptr);
+      delete logger;
+  }
+
+  /**
+   * @brief Close the project down gracefully;
+   * @param event The object requesting close
+   */
   virtual void OnClose( wxCommandEvent &event );
+
+
+  /**
+   * @brief Starts a new project
+   * @param event The object requesting a new project
+   * 
+   * Creates a setup dialog and hands over control to set up a new project.
+   */
   virtual void startNewProject( wxCommandEvent &event );
 
   /**
-   * @brief get the major version of python currently in use
+   * @brief query the system to determine the Python version in use.
    */
   void OnCheckPython();
 
-  int GetPythonVersion() { return m_pythonVersionMain; }
+
+  /**
+   * @brief Supply the major version of Python discovered by OnCheckPython()
+   * @return major version or zero if python was not discovered.
+   */
+  int GetPythonVersion();
   
+private:
+  wxLog * logger;
+  wxMenuBar *m_MainFrameMenu;
+  wxMenu *m_menuFile;
+  wxMenu *m_menuCheck;
+  wxMenu *m_menu3;
+  wxStatusBar *m_MainStatusBar;
+
+  bool m_pythonInstalled{ false };
+  std::string m_pythonVersion{};
+
 };

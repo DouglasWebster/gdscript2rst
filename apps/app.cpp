@@ -2,7 +2,7 @@
 #include <regex>
 
 #include "app.h"
-#include "wx/print.h"
+#include <wx/print.h>
 
 // start the wxWidget based app off.
 wxIMPLEMENT_APP(MyApp);
@@ -19,10 +19,7 @@ bool MyApp::OnInit()
                                    wxDefaultPosition, wxSize(1024, 600));
   frame->Show(true);
   frame->OnCheckPython();
-  #ifdef WX_PRECOMP
-    wxMessageBox("Using pre-compiled header for wxWidgets.");
-  #endif
-  
+
   return true;
 }
 
@@ -30,6 +27,9 @@ MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, con
                      const wxSize &size, long style)
     : wxFrame{parent, id, title, pos, size, style}
 {
+  logger = new wxLogStderr();
+  wxLog::SetActiveTarget(logger);
+
   this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
   m_MainFrameMenu = new wxMenuBar(0);
@@ -77,7 +77,10 @@ MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, con
   this->SetSizer(bSizer1);
 
   this->Layout();
-  m_statusBar1 = this->CreateStatusBar(1, wxSTB_SIZEGRIP, wxID_ANY);
+  m_MainStatusBar = this->CreateStatusBar(1, wxSTB_DEFAULT_STYLE, wxID_ANY);
+  wxStatusBarPane paneOne = m_MainStatusBar->GetField(0);
+  paneOne.SetStyle(wxSB_SUNKEN);
+  m_MainStatusBar->SetStatusText("No project open.");
 
   // Connect Events
   m_menuFile->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnClose), this,
@@ -86,17 +89,19 @@ MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, con
   m_menuFile->Bind(wxEVT_COMMAND_MENU_SELECTED,
                    wxCommandEventHandler(MainFrame::startNewProject), this,
                    m_menuProjectNew->GetId());
-
-  // m_menuCheck->Bind( wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnCheckPython
-  // ),
-  //                    this, menuCheckPython->GetId() );
 }
 
 void MainFrame::OnClose(wxCommandEvent &event) { Close(true); }
 
 void MainFrame::startNewProject(wxCommandEvent &event)
 {
-  SetupDialog setupDialog(this);
+  wxString pythonString{"Python version: "};
+  pythonString.append(m_pythonVersion);
+  if (GetPythonVersion() < 3)
+  {
+    pythonString.append(" (version required 3+ - document generation inhibited.");
+  }
+  SetupDialog setupDialog(this, pythonString);
   if (setupDialog.ShowModal() == wxID_OK)
   {
     wxLogMessage("Setup dialog returned OK");
@@ -113,7 +118,7 @@ void MainFrame::OnCheckPython()
   std::string version = "";
 
   FILE *pipe = popen(command.c_str(), "r");
-  if ( !pipe)
+  if (!pipe)
   {
     wxMessageBox("Failed to get Python information from the system");
     return;
@@ -132,20 +137,31 @@ void MainFrame::OnCheckPython()
     return;
   }
 
-  std::regex pattern("\\d+");
+  std::regex pattern("\\d+.\\d+.\\d+");
   std::smatch match;
   std::regex_search(version, match, pattern);
 
-  m_pythonVersionMain = std::stoi(match.str());
+  m_pythonVersion = match.str();
 
-  if (!version.empty())
+  if (version.empty() | std::stoi(m_pythonVersion) < 3)
   {
-    m_pythonInstalled = true;
-    wxString message = "Python version " + std::to_string(m_pythonVersionMain) + " found.";
+    m_pythonInstalled = false;
+    wxMessageBox("Python version 3 or greater is required for this program.  Document generation step will be disabled.");
   }
   else
   {
-    wxMessageBox("Python is not installed on this machine.");
-    
+    m_pythonInstalled = true;
+    wxString message = "Python version " + m_pythonVersion + " found.";
   }
+}
+
+int MainFrame::GetPythonVersion()
+{
+  if (m_pythonVersion.empty())
+  {
+    return 0;
+  }
+
+  return std::stoi(m_pythonVersion);
+
 }
