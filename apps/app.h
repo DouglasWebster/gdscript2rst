@@ -16,15 +16,16 @@
 #include <wx/wx.h>
 #endif
 
-#include <wx/log.h>
 #include <wx/dirdlg.h>
+#include <wx/log.h>
 
 #include "setupdialog.h"
 
 /**
  * @brief Generate the wxWidgets program.
  */
-class MyApp : public wxApp {
+class MyApp : public wxApp
+{
 public:
   virtual bool OnInit() override;
 };
@@ -34,7 +35,8 @@ public:
  *
  * The window consists of a menu, status bar and blank are for use by the program subsystem.
  */
-class MainFrame : public wxFrame {
+class MainFrame : public wxFrame
+{
 public:
   /**
    * @brief Single constructor for the main frame
@@ -49,35 +51,37 @@ public:
    * The frame is created with wxDEFAULT_FRAME_STYLE | wxMAXIMIZE_BOX | wxMINIMIZE_BOX |
    * wxTAB_TRAVERSAL which allows for resizing the window and for tab cycling.
    */
-  MainFrame( wxWindow *parent = nullptr, wxWindowID id = wxID_ANY,
-             const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition,
-             const wxSize &size = wxDefaultSize,
-             long style = wxDEFAULT_FRAME_STYLE | wxMAXIMIZE_BOX | wxMINIMIZE_BOX |
-                          wxTAB_TRAVERSAL );
+  MainFrame(wxWindow *parent = nullptr,
+    wxWindowID id = wxID_ANY,
+    const wxString &title = wxEmptyString,
+    const wxPoint &pos = wxDefaultPosition,
+    const wxSize &size = wxDefaultSize,
+    long style = wxDEFAULT_FRAME_STYLE | wxMAXIMIZE_BOX | wxMINIMIZE_BOX | wxTAB_TRAVERSAL);
 
 
   /**
    * @brief destroy any frame based objects not taken care of by the wxWidget class.
    */
-  ~MainFrame() {
-      wxLog::SetActiveTarget(nullptr);
-      delete logger;
+  ~MainFrame()
+  {
+    wxLog::SetActiveTarget(nullptr);
+    delete logger;
   }
 
   /**
    * @brief Close the project down gracefully;
    * @param event The object requesting close
    */
-  virtual void OnClose( wxCommandEvent &event );
+  virtual void OnClose(wxCommandEvent &event);
 
 
   /**
    * @brief Starts a new project
    * @param event The object requesting a new project
-   * 
+   *
    * Creates a setup dialog and hands over control to set up a new project.
    */
-  virtual void startNewProject( wxCommandEvent &event );
+  virtual void startNewProject(wxCommandEvent &event);
 
   /**
    * @brief query the system to determine the Python version in use.
@@ -90,9 +94,9 @@ public:
    * @return major version or zero if python was not discovered.
    */
   int GetPythonVersion();
-  
+
 private:
-  wxLog * logger;
+  wxLog *logger;
   wxMenuBar *m_MainFrameMenu;
   wxMenu *m_menuFile;
   wxMenu *m_menuCheck;
@@ -101,5 +105,4 @@ private:
 
   bool m_pythonInstalled{ false };
   std::string m_pythonVersion{};
-
 };
