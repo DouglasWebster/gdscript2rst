@@ -20,7 +20,7 @@
 
 
 /**
- * @brief Dialog for inputting the required file locations and defaults.
+ * @brief Dialog for gathering the required file locations and defaults for a new project.
  * 
  * Collects the users preferred locations for:
  *  - Project :  Where the setup for Sphinx is stored.
@@ -29,13 +29,13 @@
  */
 class SetupDialog : public wxDialog {
 public:
-  SetupDialog( wxWindow *parent );
-  int m_pythonVersion{};
+  SetupDialog( wxWindow *parent, wxString python_version = "");
   
 private:
   wxString m_projectPath{};
   wxString m_destinationPath{};
   wxString m_sourcePath{};
+  wxString m_pythonVersion {};
 
 
 
