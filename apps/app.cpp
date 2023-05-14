@@ -99,11 +99,11 @@ void MainFrame::startNewProject(wxCommandEvent &event)
   SetupDialog setupDialog(this);
   if (setupDialog.ShowModal() == wxID_OK)
   {
-    wxMessageBox("Dialog returned OK");
+    wxLogMessage("Setup dialog returned OK");
   }
   else
   {
-    wxMessageBox("Dialog box was cancelled");
+    wxLogMessage("Setup dialog box was cancelled");
   }
 }
 

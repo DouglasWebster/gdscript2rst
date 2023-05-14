@@ -15,6 +15,8 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+
+#include <wx/log.h>
 #include <wx/dirdlg.h>
 
 #include "setupdialog.h"
