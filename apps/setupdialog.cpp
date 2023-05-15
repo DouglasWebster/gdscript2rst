@@ -64,14 +64,17 @@ SetupDialog::SetupDialog(wxWindow *parent, wxString pythonVersion)
   wxBoxSizer *pythonDetailsSizer;
   pythonDetailsSizer = new wxBoxSizer(wxHORIZONTAL);
 
-  wxTextCtrl *pythonVersionCtl = new wxTextCtrl(panel, wxID_ANY, "");
-  pythonVersionCtl->SetValue(m_pythonVersion);
-  pythonVersionCtl->SetEditable(false);
+  auto *pythonVersionCtrl = new wxTextCtrl(panel, wxID_ANY, "");
+  pythonVersionCtrl->SetValue(m_pythonVersion);
+  pythonVersionCtrl->SetEditable(false);
 
-  pythonDetailsSizer->Add(pythonVersionCtl, 1, wxALL, 5);
+  pythonDetailsSizer->Add(pythonVersionCtrl, 1, wxALL, 5);
 
-  wxTextCtrl *pipVersionCtr = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-  pythonDetailsSizer->Add(pipVersionCtr, 1, wxALL, 5);
+  auto *venvLabel = new wxStaticText(panel, wxID_ANY, "venv name: ");
+  auto *venvNameCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+  venvNameCtrl->SetValue(".venv");
+  pythonDetailsSizer->Add(venvLabel, 0, wxALL, 5);
+  pythonDetailsSizer->Add(venvNameCtrl, 1, wxALL, 5);
 
   sizer->Add(pythonDetailsSizer, wxGBPosition(4, 0), wxGBSpan(1, 4), wxEXPAND, 5);
 
@@ -88,7 +91,7 @@ SetupDialog::SetupDialog(wxWindow *parent, wxString pythonVersion)
 
     projectPath->SetValue(dialog.GetPath());
     if (destinationPath->IsEmpty()) {
-      wxString suggestedPath = projectPath->GetValue() + "/docs";
+      wxString suggestedPath = projectPath->GetValue() + "/build";
       destinationPath->SetValue(suggestedPath);
     }
 
