@@ -16,7 +16,8 @@
   "cSpell.words": [
     "Godot",
     "mainpage",
-    "SIZEGRIP"
+    "SIZEGRIP",
+    "venv"
   ],
   "cmake.configureOnOpen": true,
 }
