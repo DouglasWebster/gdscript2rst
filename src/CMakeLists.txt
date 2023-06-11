@@ -2,20 +2,21 @@
 # show up in IDEs unless they are listed in add_library.
 
 # Optionally glob, but only for CMake 3.12 or later:
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${shell_tasks_SOURCE_DIR}/include/*.hpp")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${parse_tasks_SOURCE_DIR}../include/*.h")
+message(STATUS "Globed Header List depends on ${HEADER_LIST}")
 # set(HEADER_LIST "${ModernCMakeExample_SOURCE_DIR}/include/modern/lib.hpp")
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(shell_tools shell_tools.cpp ${HEADER_LIST})
+add_library(gdscript_parse parse.cpp ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
-target_include_directories(shell_tools PUBLIC ../include)
+target_include_directories(gdscript_parse PUBLIC ../include)
 
 # This depends on (header only) boost
 #target_link_libraries(modern_library PRIVATE Boost::boost)
 
 # All users of this library will need at least C++11
-target_compile_features(shell_tools PUBLIC cxx_std_20)
+target_compile_features(gdscript_parse PUBLIC cxx_std_20)
 
 # IDEs should put the headers in a nice place
 source_group(
